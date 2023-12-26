@@ -10,6 +10,7 @@ const Login = () => {
           <CustomInput type="password" label="Password" id="pass" />
         </form>
       </div>
+      
     </div>
   );
 };
