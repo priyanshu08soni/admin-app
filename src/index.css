@@ -16,4 +16,73 @@ body{
   margin: 16px;
   background-color: rgba(255, 255,255, 0.3);
 }
+.ant-layout{
+  height: 100vh;
+}
+main{
+  overflow-y: scroll;
+  background: transparent !important;
+}
+main::-webkit-scrollbar{
+  width: 0px;
+}
+.ant-layout-sider{
+  width: 250px !important;
+  max-width: 250px !important;
+  min-width: 250px !important;
+  flex: 0 0 250px !important;
+}
+.ant-layout-sider-collapsed{
+  width: 80px !important;
+  max-width: 80px !important;
+  min-width: 80px !important;
+  flex: 0 0 80px !important; 
+}
 
+.logo{
+  background-color: #ffd333;
+  margin: 0;
+  height: 64px;
+}
+.sm-logo{
+  display: none;
+}
+.ant-layout-sider-collapsed .sm-logo{
+  display: block;
+  font-size: 26px;
+}
+.ant-layout-sider-collapsed .lg-logo{
+  display: none;
+}
+.ant-menu-item,.ant-menu-submenu-title{
+  padding-left: 25px !important;
+}
+.ant-menu-title-content{
+  font-size: 16px;
+}
+.ant-layout-header h5{
+  line-height: 20px;
+  font-size: 14px;
+}
+.ant-layout-header p{
+  line-height: 20px;
+  font-size: 12px;
+  color: #777777;
+}
+.ant-layout-header img{
+  border-radius: 10px;
+}
+.ant-layout-header div .badge{
+  top: 16px;
+  right: -3px;
+  height: 14px;
+    width: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:red !important;
+}
+.quill{
+  background-color: white;
+  border-radius: 10px;
+}
