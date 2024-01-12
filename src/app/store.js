@@ -5,6 +5,9 @@ import productReducer from "../features/product/productSlice";
 import brandReducer from "../features/brand/brandSlice";
 import pcategoryReducer from "../features/pcategory/pcategorySlice";
 import colorReducer from "../features/color/colorSlice";
+import blogReducer from "../features/blogs/blogSlice";
+import bcategoryReducer from "../features/bcategory/bcategorySlice";
+
 export const store = configureStore({
   reducer: {
     auth: authreducer,
@@ -13,6 +16,8 @@ export const store = configureStore({
     brand: brandReducer,
     pcategory:pcategoryReducer,
     color:colorReducer,
+    blog:blogReducer,
+    bcategory:bcategoryReducer,
   },
 });
 // service takes the responsed data from server then server give this data to service -> slice and slice 
