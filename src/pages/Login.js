@@ -20,16 +20,13 @@ const Login = () => {
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(login(values))
-      alert(JSON.stringify(values, null, 2));
+      dispatch(login(values));
     },
   });
   const {user,isLoading,isError,isSuccess,message}=useSelector((state)=>state.auth);
   useEffect(()=>{
     if(!user==null || isSuccess){
       navigate("admin");
-    }else{
-      alert("not")
     }
   },[user,isLoading,isError,isSuccess,message]);
   return (
