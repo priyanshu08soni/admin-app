@@ -1,18 +1,20 @@
 import React, { useEffect } from "react";
 import CustomInput from "../Components/CustomInput";
 import { Link, useNavigate } from "react-router-dom";
-import {useDispatch,useSelector} from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { login } from "../features/auth/authSlice";
-
+let schema = yup.object().shape({
+  email: yup
+  .string()
+  .email("Email should be valid")
+  .required("Email is required"),
+  password: yup.string().required("password is required"),
+});
 const Login = () => {
-  const dispatch=useDispatch();
-  const navigate=useNavigate();
-  let schema = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().required(),
-  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -23,12 +25,14 @@ const Login = () => {
       dispatch(login(values));
     },
   });
-  const {user,isLoading,isError,isSuccess,message}=useSelector((state)=>state.auth);
-  useEffect(()=>{
-    if(!user==null || isSuccess){
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+  useEffect(() => {
+    if (!user == null || isSuccess) {
       navigate("admin");
     }
-  },[user,isLoading,isError,isSuccess,message]);
+  }, [user, isLoading, isError, isSuccess, message]);
   return (
     <div className="py-5" style={{ background: "#ffd333", minHeight: "100vh" }}>
       <br />

@@ -7,6 +7,7 @@ import pcategoryReducer from "../features/pcategory/pcategorySlice";
 import colorReducer from "../features/color/colorSlice";
 import blogReducer from "../features/blogs/blogSlice";
 import bcategoryReducer from "../features/bcategory/bcategorySlice";
+import enquiryReducer from "../features/enquiry/enquirySlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     color:colorReducer,
     blog:blogReducer,
     bcategory:bcategoryReducer,
+    enquiry:enquiryReducer,
   },
 });
 // service takes the responsed data from server then server give this data to service -> slice and slice 
