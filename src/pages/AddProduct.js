@@ -2,17 +2,17 @@ import { React, useEffect, useState } from "react";
 import CustomInput from "../Components/CustomInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import * as yup from "yup";
-import { toast } from "react-toastify";
 import { Select } from "antd";
+import * as yup from "yup";
+import {toast} from "react-toastify"
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
+import { delImg, uploadImg } from "../features/upload/uploadSlice";
 import { getBrands } from "../features/brand/brandSlice";
 import { getCategories } from "../features/pcategory/pcategorySlice";
 import { getColors } from "../features/color/colorSlice";
 import "react-widgets/styles.css";
 import Dropzone from "react-dropzone";
-import { delImg, uploadImg } from "../features/upload/uploadSlice";
 import { createProducts, resetState } from "../features/product/productSlice";
 let schema = yup.object().shape({
   title: yup.string().required("Title is required"),
@@ -42,7 +42,7 @@ const AddProduct = () => {
   const categoryState = useSelector((state) => state.pcategory.pcategories);
   const colorState = useSelector((state) => state.color.colors);
   const imgState = useSelector((state) => state.upload.images);
-  const newProduct=useSelector((state)=>state.product);
+  const newProduct=useSelector((state)=>state.product.products);
   const {isSuccess,isError,isLoading,createdProduct}=newProduct;
   useEffect(() => {
     if (isSuccess && createdProduct) {

@@ -1,65 +1,144 @@
-import React, { useState } from "react";
+import { React, useEffect, useState } from "react";
 import CustomInput from "../Components/CustomInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { InboxOutlined } from "@ant-design/icons";
-import { message, Upload } from "antd";
-const { Dragger } = Upload;
-const props = {
-  name: "file",
-  multiple: true,
-  action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-  onchange(info) {
-    const { status } = info.file;
-    if (status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (status === "done") {
-      message.success(`${info.file.name} file uploaded successfully `);
-    } else if (status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-  onDrop(e) {
-    console.log("Dropped files", e.dataTransfer.files);
-  },
-};
+import Dropzone from "react-dropzone";
+
+import * as yup from "yup";
+import { toast } from "react-toastify";
+import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { delImg, uploadImg } from "../features/upload/uploadSlice";
+import { resetState } from "../features/product/productSlice";
+import { addBlogs, getBlogs } from "../features/blogs/blogSlice";
+let schema = yup.object().shape({
+  title: yup.string().required("Title is required"),
+  description: yup.string().required("Description is required"),
+  category: yup.string().required("Category is required"),
+});
 const AddBlog = () => {
-  const [desc, setDesc] = useState();
-  const handleDesc = (e) => {
-    setDesc(e);
-  };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getBlogs());
+  }, []);
+
+  const bCategoryState = useSelector((state) => state.bcategory.bcategories);
+  const imgState = useSelector((state) => state.upload.images);
+  const newBlog = useSelector((state) => state.blog.blogs);
+  const { isSuccess, isError, isLoading, blogs } = newBlog;
+  useEffect(() => {
+    if (isSuccess && blogs) {
+      toast.success("Product Added Successfullly!");
+    }
+    if (isError) {
+      toast.error("Something Went Wrong!");
+    }
+  }, [isSuccess, isError, isLoading]);
+  const img = [];
+  imgState.forEach((i) => {
+    img.push({
+      public_id: i.public_id,
+      URL: i.URL,
+    });
+  });
+  useEffect(() => {
+    formik.values.images = img;
+  }, [img]);
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+      category: "",
+      images: "",
+    },
+    validationSchema: schema,
+    onSubmit: (values) => {
+      dispatch(addBlogs(values));
+      formik.resetForm();
+      setTimeout(() => {
+        dispatch(resetState());
+      }, 3000);
+    },
+  });
   return (
     <div>
       <h3 className="mb-4 title">Add Blog</h3>
 
       <div>
-        <form action="">
-          <Dragger {...props}>
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">
-              Click or drag file to this area to upload
-            </p>
-            <p className="ant-upload-hint">
-              Support for a single or bulk upload. Strictly prohibit from
-              uploading company data or other band files
-            </p>
-          </Dragger>
+        <form action="" onSubmit={formik.handleSubmit}>
           <div className="mt-4">
-              <CustomInput type="text" label="Enter Blog Title" />
+            <CustomInput
+              type="text"
+              label="Enter Blog title"
+              name="title"
+              val={formik.values.title}
+              onCh={formik.handleChange("title")}
+              onBl={formik.handleBlur("title")}
+            />
           </div>
-          <select className="form-control py-3 mb-3" name="" id="">
+          <div className="error text-danger">
+            {formik.touched.title && formik.errors.title}
+          </div>
+          <select
+            className="form-control py-3 mb-3"
+            name="category"
+            value={formik.values.category}
+            onChange={formik.handleChange("category")}
+            onBlur={formik.handleBlur("category")}
+            id=""
+          >
             <option value="">Select Blog Category</option>
+            {bCategoryState.map((i, j) => {
+              return (
+                <option key={j} value={i.title}>
+                  {i.title}
+                </option>
+              );
+            })}
           </select>
+          <div className="error text-danger">
+            {formik.touched.category && formik.errors.category}
+          </div>
           <ReactQuill
             theme="snow"
-            value={desc}
-            onChange={(evt) => {
-              handleDesc(evt);
-            }}
+            name="title"
+            onChange={formik.handleChange("description")}
+            value={formik.values.description}
           />
+          <div className="error text-danger">
+            {formik.touched.description && formik.errors.description}
+          </div>
+          <div className="bg-white mt-3 border-1 p-5 text-center">
+            <Dropzone
+              onDrop={(acceptedFiles) => dispatch(uploadImg(acceptedFiles))}
+            >
+              {({ getRootProps, getInputProps }) => (
+                <section>
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <p>
+                      Drag 'n drop sone files here , or click to select files
+                    </p>
+                  </div>
+                </section>
+              )}
+            </Dropzone>
+          </div>
+          <div className="showimages d-flex flex-wrap gap-3">
+            {imgState.map((i, j) => {
+              return (
+                <div className=" position-relative " key={j}>
+                  <button
+                    type="button"
+                    onClick={() => dispatch(delImg(i.public_id))}
+                    className="btn-close position-absolute  "
+                    style={{ top: "5px", right: "5px" }}
+                  ></button>
+                  <img src={i.URL} alt="" width={200} height={200} />
+                </div>
+              );
+            })}
+          </div>
           <button
             type="submit"
             className="btn btn-success border-0 rounded-3 my-5"
