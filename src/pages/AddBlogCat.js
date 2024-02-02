@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { resetState } from "../features/product/productSlice";
-import { addBlogCategories } from "../features/bcategory/bcategorySlice";
+
+import { addBlogCategories, resetState } from "../features/bcategory/bcategorySlice";
 let schema = yup.object().shape({
   title: yup.string().required("Category is required"),
 });

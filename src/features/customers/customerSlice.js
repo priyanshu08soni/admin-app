@@ -1,4 +1,4 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice,createAsyncThunk,createAction } from "@reduxjs/toolkit";
 import customerService from "./customerService";
 
 
@@ -9,6 +9,7 @@ export const getUsers = createAsyncThunk('customer/get-customers',async(user,thu
         return thunkApi.rejectWithValue(error);
     }
 })
+
 const initialState={
     customers:[],
     isError:false,

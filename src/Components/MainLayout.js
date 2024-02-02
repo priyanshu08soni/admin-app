@@ -6,6 +6,7 @@ import {
   AiOutlineUser,
   AiOutlineBgColors,
 } from "react-icons/ai";
+import {RiCouponLine} from "react-icons/ri"
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 import { useNavigate, Outlet } from "react-router-dom";
@@ -28,6 +29,7 @@ const MainLayout = () => {
       style={{
         minHeight: "100vh",
       }}
+      // onContextMenu={(e)=>e.preventDefault()}
     >
       <Sider collapsible collapsed={collapsed} trigger={null}>
         <div className="logo d-flex justify-content-center align-items-center">
@@ -108,6 +110,23 @@ const MainLayout = () => {
               key: "orders",
               icon: <FaClipboardList className="fs-4" />,
               label: "Orders",
+            },
+            {
+              key: "marketing",
+              icon: <RiCouponLine className="fs-4" />,
+              label: "Marketing",
+              children: [
+                {
+                  key: "coupon",
+                  icon: <ImBlog className="fs-4" />,
+                  label: "Add Coupon",
+                },
+                {
+                  key: "coupon-list",
+                  icon: <RiCouponLine className="fs-4" />,
+                  label: "Coupon List",
+                },
+              ],
             },
             {
               key: "blogs",

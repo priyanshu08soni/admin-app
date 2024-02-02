@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { resetState } from "../features/product/productSlice";
-import { addColors } from "../features/color/colorSlice";
+import { addColors, resetState } from "../features/color/colorSlice";
 let schema = yup.object().shape({
   title: yup.string().required("Color is required"),
 });

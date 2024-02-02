@@ -8,8 +8,7 @@ import * as yup from "yup";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { delImg, uploadImg } from "../features/upload/uploadSlice";
-import { resetState } from "../features/product/productSlice";
+import { delImg, resetState, uploadImg } from "../features/upload/uploadSlice";
 import { addBlogs, getBlogs } from "../features/blogs/blogSlice";
 let schema = yup.object().shape({
   title: yup.string().required("Title is required"),

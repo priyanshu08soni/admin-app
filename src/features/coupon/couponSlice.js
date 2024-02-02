@@ -1,15 +1,15 @@
 import { createSlice,createAsyncThunk,createAction } from "@reduxjs/toolkit";
-import blogService from "./blogService";
-export const getBlogs = createAsyncThunk('blog/get-blogs',async(thunkApi)=>{
+import couponService from "./couponService"
+export const getCoupons = createAsyncThunk('coupon/get-coupons',async(thunkApi)=>{
     try {
-        return await blogService.getBlogs();
+        return await couponService.getCoupons();
     } catch (error) {
         return thunkApi.rejectWithValue(error);
     }
 })
-export const addBlogs = createAsyncThunk('blog/add-blogs',async(blogData,thunkApi)=>{
+export const addCoupons = createAsyncThunk('coupon/add-coupons',async(coupon,thunkApi)=>{
     try {
-        return await blogService.addBlogs(blogData);
+        return await couponService.addCoupons(coupon);
     } catch (error) {
         return thunkApi.rejectWithValue(error);
     }
@@ -17,7 +17,7 @@ export const addBlogs = createAsyncThunk('blog/add-blogs',async(blogData,thunkAp
 export const resetState=createAction('Reset_all')
 
 const initialState={
-    blogs:[],
+    coupons:[],
     isError:false,
     isLoading:false,
     isSuccess:false,
@@ -25,39 +25,38 @@ const initialState={
 }
 
 
-export const blogSlice=createSlice({
-    name:"blogs",
+export const couponSlice=createSlice({
+    name:"coupons",
     initialState,
     reducers:{},
     extraReducers:(builder)=>{
-        builder.addCase(getBlogs.pending,(state)=>{
+        builder.addCase(getCoupons.pending,(state)=>{
             state.isLoading=true;
-        }).addCase(getBlogs.fulfilled,(state,action)=>{
+        }).addCase(getCoupons.fulfilled,(state,action)=>{
             state.isLoading=false;
             state.isError=false;
             state.isSuccess=true;
-            state.blogs=action.payload;
-        }).addCase(getBlogs.rejected,(state,action)=>{
+            state.coupons=action.payload;
+        }).addCase(getCoupons.rejected,(state,action)=>{
             state.isLoading=false;
             state.isError=true;
             state.isSuccess=false;
             state.message=action.error;
         })
-        .addCase(addBlogs.pending,(state)=>{
+        .addCase(addCoupons.pending,(state)=>{
             state.isLoading=true;
-        }).addCase(addBlogs.fulfilled,(state,action)=>{
+        }).addCase(addCoupons.fulfilled,(state,action)=>{
             state.isLoading=false;
             state.isError=false;
             state.isSuccess=true;
-            state.blogs=action.payload;
-        }).addCase(addBlogs.rejected,(state,action)=>{
+            state.coupons=action.payload;
+        }).addCase(addCoupons.rejected,(state,action)=>{
             state.isLoading=false;
             state.isError=true;
             state.isSuccess=false;
             state.message=action.error;
-        })
-        .addCase(resetState,()=>initialState);
+        }).addCase(resetState,()=>initialState);
     },
 })
-export default blogSlice.reducer;
+export default couponSlice.reducer;
 

@@ -1,4 +1,4 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice,createAsyncThunk,createAction } from "@reduxjs/toolkit";
 import enquiryService from "./enquiryService";
 export const getEnquiries = createAsyncThunk('enquiry/get-enquiries',async(user,thunkApi)=>{
     try {

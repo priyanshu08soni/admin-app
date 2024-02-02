@@ -1,4 +1,4 @@
-import { createSlice,createAsyncThunk ,createAction} from "@reduxjs/toolkit";
+import { createSlice,createAsyncThunk,createAction } from "@reduxjs/toolkit";
 import productService from "./productService";
 
 

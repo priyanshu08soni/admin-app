@@ -1,4 +1,4 @@
-import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice,createAsyncThunk,createAction } from "@reduxjs/toolkit";
 import pCategoryService from "./pcategoryService";
 
 
@@ -16,6 +16,29 @@ export const addCategories = createAsyncThunk('brand/add-product-categories',asy
         return thunkApi.rejectWithValue(error);
     }
 })
+export const getaPcategory = createAsyncThunk('category/get-p-category',async(_id,thunkApi)=>{
+    try {
+        return await pCategoryService.getaPcategory(_id);
+    } catch (error) {
+        return thunkApi.rejectWithValue(error);
+    }
+})
+export const deletePcategory = createAsyncThunk('category/delete-p-category',async(_id,thunkApi)=>{
+    try {
+        return await pCategoryService.deletePcategory(_id);
+    } catch (error) {
+        return thunkApi.rejectWithValue(error);
+    }
+})
+export const updatePcategory = createAsyncThunk('category/update-p-category',async(pCategory,thunkApi)=>{
+    try {
+        return await pCategoryService.updatePcategory(pCategory);
+    } catch (error) {
+        return thunkApi.rejectWithValue(error);
+    }
+})
+export const resetState=createAction('Reset_all')
+
 const initialState={
     pcategories:[],
     isError:false,
@@ -56,6 +79,46 @@ export const categorySlice=createSlice({
             state.isSuccess=false;
             state.message=action.error;
         })
+        .addCase(getaPcategory.pending,(state)=>{
+            state.isLoading=true;
+        }).addCase(getaPcategory.fulfilled,(state,action)=>{
+            state.isLoading=false;
+            state.isError=false;
+            state.isSuccess=true;
+            state.pcategoryName=action.payload.title;
+        }).addCase(getaPcategory.rejected,(state,action)=>{
+            state.isLoading=false;
+            state.isError=true;
+            state.isSuccess=false;
+            state.message=action.error;
+        })
+        .addCase(updatePcategory.pending,(state)=>{
+            state.isLoading=true;
+        }).addCase(updatePcategory.fulfilled,(state,action)=>{
+            state.isLoading=false;
+            state.isError=false;
+            state.isSuccess=true;
+            state.updatedpCategory=action.payload;
+        }).addCase(updatePcategory.rejected,(state,action)=>{
+            state.isLoading=false;
+            state.isError=true;
+            state.isSuccess=false;
+            state.message=action.error;
+        })
+        .addCase(deletePcategory.pending,(state)=>{
+            state.isLoading=true;
+        }).addCase(deletePcategory.fulfilled,(state,action)=>{
+            state.isLoading=false;
+            state.isError=false;
+            state.isSuccess=true;
+            state.deletedCategory=action.payload;
+        }).addCase(deletePcategory.rejected,(state,action)=>{
+            state.isLoading=false;
+            state.isError=true;
+            state.isSuccess=false;
+            state.message=action.error;
+        })
+        .addCase(resetState,()=>initialState);
     },
 })
 export default categorySlice.reducer;
