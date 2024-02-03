@@ -1,10 +1,12 @@
-import {React,useEffect} from "react";
+import {React,useEffect, useState} from "react";
 import { Table } from "antd";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "antd/es/typography/Link";
-import { getCoupons } from "../features/coupon/couponSlice";
+
+import { deleteCoupon, getCoupons, resetState } from "../features/coupon/couponSlice";
+import CustomModel from "../Components/CustomModel";
+import { Link } from "react-router-dom";
 
 const columns = [
   {
@@ -32,8 +34,19 @@ const columns = [
 ];
 
 const CouponList = () => {
+  const [open,setOpen]=useState();
+  const [couponId,setCouponId]=useState("");
+  
+  const showModel=(e)=>{
+    setOpen(true);
+    setCouponId(e);
+  };
+  const hideModel=()=>{
+    setOpen(false);
+  }
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(resetState());
     dispatch(getCoupons());
   }, []);
   const couponState=useSelector((state)=>state.coupon.coupons);
@@ -46,15 +59,24 @@ const CouponList = () => {
       expiry: new Date(couponState[i].expiry).toLocaleString(),
       action: (
         <>
-          <Link to="/">
+          <Link to={`/admin/coupon/${couponState[i]._id}`}>
             <BiEdit className="fs-4 " />
           </Link>
-          <Link to="/">
-            <AiFillDelete className="ms-3 fs-4 text-danger" />
-          </Link>
+          <button className="ms-3 fs-4 text-danger bg-transparent border-0"
+            onClick={()=>{showModel(couponState[i]._id)}}
+          >
+            <AiFillDelete />
+          </button>
         </>
       ),
     });
+  }
+  const deleteACoupon=(e)=>{
+    dispatch(deleteCoupon(e));
+    setOpen(false);
+    setTimeout(()=>{
+      dispatch(getCoupons());
+    },100);
   }
   return (
     <div>
@@ -62,6 +84,13 @@ const CouponList = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModel 
+      hideModel={hideModel} 
+      open={open}
+      performAction={()=>{deleteACoupon(couponId)}} 
+      title="Are You sure you want to delete this coupon?"  
+
+      />
     </div>
   );
 };

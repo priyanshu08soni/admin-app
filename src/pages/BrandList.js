@@ -23,7 +23,7 @@ const columns = [
 ];
 
 const BrandList = () => {
-  const [open,setOpen]=useState(false);
+  const [open,setOpen]=useState();
   const [brandId,setBrandId]=useState("");
   const showModel=(e)=>{
     setOpen(true);

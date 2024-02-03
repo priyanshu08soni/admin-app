@@ -1,10 +1,12 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { Table } from "antd";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "antd/es/typography/Link";
-import { getBlogCategories } from "../features/bcategory/bcategorySlice";
+import { deleteBlogCategory, getBlogCategories, resetState } from "../features/bcategory/bcategorySlice";
+import CustomModel from "../Components/CustomModel";
+import { Link } from "react-router-dom";
+
 const columns = [
   {
     title: "S.No.",
@@ -24,9 +26,19 @@ const columns = [
 
 const BlogCategoryList = () => {
   const dispatch = useDispatch();
+  const [open,setOpen]=useState();
+  const [bCatId,setBCatId]=useState("");
+  const showModel=(e)=>{
+    setOpen(true);
+    setBCatId(e);
+  };
+  const hideModel=()=>{
+    setOpen(false);
+  }
   useEffect(() => {
+    dispatch(resetState());
     dispatch(getBlogCategories());
-  });
+  },[]);
   const blogCategoryState=useSelector((state)=>state.bcategory.bcategories);
   const data1 = [];
   for (let i = 0; i <blogCategoryState.length; i++) {
@@ -35,15 +47,24 @@ const BlogCategoryList = () => {
       name:blogCategoryState[i].title,
       action: (
         <>
-          <Link to="/">
+          <Link to={`/admin/blog-category/${blogCategoryState[i]._id}`}>
             <BiEdit className="fs-4 " />
           </Link>
-          <Link to="/">
-            <AiFillDelete className="ms-3 fs-4 text-danger" />
-          </Link>
+          <button className="ms-3 fs-4 text-danger bg-transparent border-0"
+            onClick={()=>{showModel(blogCategoryState[i]._id)}}
+          >
+            <AiFillDelete />
+          </button>
         </>
       ),
     });
+  }
+  const deleteABlogCategory=(e)=>{
+    dispatch(deleteBlogCategory(e));
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getBlogCategories());
+    }, 100);
   }
   return (
     <div>
@@ -51,6 +72,13 @@ const BlogCategoryList = () => {
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModel 
+      hideModel={hideModel} 
+      open={open}
+      performAction={()=>{deleteABlogCategory(bCatId)}} 
+      title="Are You sure you want to delete this Blog Category?"  
+
+      />
     </div>
   );
 };

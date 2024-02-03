@@ -5,30 +5,57 @@ import { toast } from "react-toastify";
 import * as yup from "yup";
 import { useFormik } from "formik";
 
-import { addBlogCategories, resetState } from "../features/bcategory/bcategorySlice";
+import {
+  addBlogCategories,
+  getaBlogCategory,
+  resetState,
+  updateBlogCategory,
+} from "../features/bcategory/bcategorySlice";
+import { useLocation, useNavigate } from "react-router-dom";
 let schema = yup.object().shape({
   title: yup.string().required("Category is required"),
 });
 const AddBlogCat = () => {
   const dispatch = useDispatch();
   const newCategory = useSelector((state) => state.bcategory);
+  const location = useLocation();
+  const navigate=useNavigate();
+  const bCatId = location.pathname.split("/")[3];
+  const { isSuccess, isError, isLoading, bcategories, blogCatName ,updatedBlogCategory} =
+    newCategory;
+  useEffect(() => {
+    if (bCatId !== undefined) {
+      dispatch(getaBlogCategory(bCatId));
+    } else {
+      dispatch(resetState());
+    }
+  }, [bCatId]);
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      title: "",
+      title: blogCatName || "",
     },
     validationSchema: schema,
     onSubmit: (values) => {
-      dispatch(addBlogCategories(values));
-      formik.resetForm();
-      setTimeout(() => {
-        dispatch(resetState());
-      }, 3000);
+      if (bCatId !== undefined) {
+        const data={id:bCatId,bCategory:values}
+        dispatch(updateBlogCategory(data));
+      } else {
+        dispatch(addBlogCategories(values));
+        formik.resetForm();
+        setTimeout(() => {
+          dispatch(resetState());
+        }, 3000);
+      }
     },
   });
-  const { isSuccess, isError, isLoading, bcategories } = newCategory;
   useEffect(() => {
     if (isSuccess && bcategories) {
-      toast.success("Category Added Successfullly!");
+      toast.success("Blog Category Added Successfullly!");
+    }
+    if ( updatedBlogCategory && isSuccess) {
+      toast.success(" Blog Category updated Successfullly!");
+      navigate('/admin/blog-category-list')
     }
     if (isError) {
       toast.error("Something Went Wrong!");
