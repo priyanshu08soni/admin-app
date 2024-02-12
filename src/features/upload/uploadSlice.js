@@ -20,7 +20,7 @@ export const delImg = createAsyncThunk('delete/images',async(id,thunkApi)=>{
         return thunkApi.rejectWithValue(error);
     }
 })
-export const resetState=createAction('Reset_all')
+
 
 const initialState={
     images:[],
@@ -48,7 +48,8 @@ export const uploadSlice=createSlice({
             state.isError=true;
             state.isSuccess=false;
             state.message=action.error;
-        }).addCase(delImg.pending,(state)=>{
+        })
+        .addCase(delImg.pending,(state)=>{
             state.isLoading=true;
         }).addCase(delImg.fulfilled,(state,action)=>{
             state.isLoading=false;
@@ -60,7 +61,7 @@ export const uploadSlice=createSlice({
             state.isError=true;
             state.isSuccess=false;
             state.message=action.payload;
-        }).addCase(resetState,()=>initialState);
+        })
     },
 })
 export default uploadSlice.reducer;

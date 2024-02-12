@@ -19,9 +19,16 @@ export const login = createAsyncThunk('auth/admin-login',async(user,thunkApi)=>{
         return thunkApi.rejectWithValue(error);
     }
 })
-export const getOrders = createAsyncThunk('order/getallorders',async(user,thunkApi)=>{
+export const getOrders = createAsyncThunk('order/getallorders',async(thunkApi)=>{
     try {
         return await authService.getOrders();
+    } catch (error) {
+        return thunkApi.rejectWithValue(error);
+    }
+})
+export const getOrderByUser = createAsyncThunk('order/getorderbyid',async(id,thunkApi)=>{
+    try {
+        return await authService.getOrder(id);
     } catch (error) {
         return thunkApi.rejectWithValue(error);
     }
@@ -55,6 +62,20 @@ export const authSlice=createSlice({
             state.orders=action.payload;
         })
         .addCase(getOrders.rejected,(state,action)=>{
+            state.isLoading=false;
+            state.isError=true;
+            state.isSuccess=false;
+            state.user=null;
+        })
+        .addCase(getOrderByUser.pending,(state)=>{
+            state.isLoading=true;
+        })
+        .addCase(getOrderByUser.fulfilled,(state,action)=>{
+            state.isLoading=false;
+            state.isSuccess=true;
+            state.orderbyuser=action.payload;
+        })
+        .addCase(getOrderByUser.rejected,(state,action)=>{
             state.isLoading=false;
             state.isError=true;
             state.isSuccess=false;

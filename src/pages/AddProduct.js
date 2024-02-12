@@ -31,7 +31,6 @@ let schema = yup.object().shape({
 const AddProduct = () => {
   const dispatch = useDispatch();
   const [color, setColor] = useState([]);
-  const [images, setImages] = useState([]);
   useEffect(() => {
     dispatch(getBrands());
     dispatch(getCategories());
@@ -234,7 +233,7 @@ const AddProduct = () => {
             </Dropzone>
           </div>
           <div className="showimages d-flex flex-wrap gap-3">
-            {imgState.map((i, j) => {
+            {imgState?.map((i, j) => {
               return (
                 <div className=" position-relative " key={j}>
                   <button
@@ -243,7 +242,7 @@ const AddProduct = () => {
                     className="btn-close position-absolute  "
                     style={{ top: "5px", right: "5px" }}
                   ></button>
-                  <img src={i.URL} alt="" width={200} height={200} />
+                  <img src={i.url} alt="" width={200} height={200} />
                 </div>
               );
             })}

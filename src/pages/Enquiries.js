@@ -1,10 +1,15 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import { Table } from "antd";
-import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiOutlineEye } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import Link from "antd/es/typography/Link";
-import { getEnquiries } from "../features/enquiry/enquirySlice";
+import { Link } from "react-router-dom";
+import CustomModel from "../Components/CustomModel";
+import {
+  deleteAEnquiry,
+  deleteEnquiry,
+  getEnquiries,
+  updateAEnquiry,
+} from "../features/enquiry/enquirySlice";
 const columns = [
   {
     title: "S.No.",
@@ -33,6 +38,15 @@ const columns = [
 ];
 
 const Enquiries = () => {
+  const [open, setOpen] = useState();
+  const [enquiryId, setEnquiryId] = useState("");
+  const showModel = (e) => {
+    setOpen(true);
+    setEnquiryId(e);
+  };
+  const hideModel = () => {
+    setOpen(false);
+  };
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getEnquiries());
@@ -41,32 +55,68 @@ const Enquiries = () => {
   const data1 = [];
   for (let i = 0; i < enquiryState.length; i++) {
     data1.push({
-      key: i+1,
+      key: i + 1,
       name: enquiryState[i].name,
       email: enquiryState[i].email,
       mobile: enquiryState[i].mobile,
       status: (
         <>
-          <select className="form-container form-select" name="" id="">
-            <option value="">Set Status</option>
+          <select
+            name=""
+            defaultValue={enquiryState[i].status ? enquiryState[i].status : "Submitted"}
+            className="form-control form-select"
+            id=""
+            onChange={(e)=>setEnquiryStatus(e.target.value,enquiryState[i]._id)}
+          >
+            <option value="Submitted">Submitted</option>
+            <option value="Contacted">Contacted</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Resolved">Resolved</option>
           </select>
         </>
       ),
       action: (
         <>
-          <Link to="/">
-            <AiFillDelete className="ms-3 fs-4 text-danger" />
+          <Link className="ms-3 fs-4 text-danger" to={`${enquiryState[i]._id}`}>
+            <AiOutlineEye />
           </Link>
+          <button
+            className="ms-3 fs-4 text-danger bg-transparent border-0"
+            onClick={() => {
+              showModel(enquiryState[i]._id);
+            }}
+          >
+            <AiFillDelete />
+          </button>
         </>
       ),
     });
   }
+  const setEnquiryStatus=(e,i)=>{
+    const data={_id:i,enqData:e}
+    dispatch(updateAEnquiry(data));
+  }
+  const deleteEnquiry = (e) => {
+    dispatch(deleteAEnquiry(e));
+    setOpen(false);
+    setTimeout(() => {
+      dispatch(getEnquiries());
+    }, 100);
+  };
   return (
     <div>
       <h3 className="mb-4 title">Enquiries</h3>
       <div>
         <Table columns={columns} dataSource={data1} />
       </div>
+      <CustomModel
+        hideModel={hideModel}
+        open={open}
+        performAction={() => {
+          deleteEnquiry(enquiryId);
+        }}
+        title="Are You sure you want to delete this enquiry?"
+      />
     </div>
   );
 };
