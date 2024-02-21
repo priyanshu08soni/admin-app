@@ -38,7 +38,7 @@ const AddCat = () => {
         formik.resetForm();
         setTimeout(() => {
           dispatch(resetState());
-        }, 300);
+        }, 3000);
       }
     },
   });

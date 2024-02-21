@@ -62,9 +62,10 @@ const AddProduct = () => {
   imgState.forEach((i) => {
     img.push({
       public_id: i.public_id,
-      URL: i.URL,
+      url: i.url,
     });
   });
+  
   useEffect(()=>{
     formik.values.color = color?color:" ";
     formik.values.images = img;
