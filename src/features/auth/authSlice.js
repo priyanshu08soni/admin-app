@@ -19,6 +19,20 @@ export const login = createAsyncThunk('auth/admin-login',async(user,thunkApi)=>{
         return thunkApi.rejectWithValue(error);
     }
 })
+export const getMonthlyOrders = createAsyncThunk('orders/monthlyOrderIncome',async(thunkApi)=>{
+    try {
+        return await authService.getMonthlyOrders();
+    } catch (error) {
+        return thunkApi.rejectWithValue(error);
+    }
+})
+export const getYearlyOrders = createAsyncThunk('orders/yearlyOrderIncome',async(thunkApi)=>{
+    try {
+        return await authService.getYearlyOrders();
+    } catch (error) {
+        return thunkApi.rejectWithValue(error);
+    }
+})
 export const getOrders = createAsyncThunk('order/getallorders',async(thunkApi)=>{
     try {
         return await authService.getOrders();
@@ -76,6 +90,34 @@ export const authSlice=createSlice({
             state.orderbyuser=action.payload;
         })
         .addCase(getOrderByUser.rejected,(state,action)=>{
+            state.isLoading=false;
+            state.isError=true;
+            state.isSuccess=false;
+            state.user=null;
+        })
+        .addCase(getMonthlyOrders.pending,(state)=>{
+            state.isLoading=true;
+        })
+        .addCase(getMonthlyOrders.fulfilled,(state,action)=>{
+            state.isLoading=false;
+            state.isSuccess=true;
+            state.monthlyOrdersData=action.payload;
+        })
+        .addCase(getMonthlyOrders.rejected,(state,action)=>{
+            state.isLoading=false;
+            state.isError=true;
+            state.isSuccess=false;
+            state.user=null;
+        })
+        .addCase(getYearlyOrders.pending,(state)=>{
+            state.isLoading=true;
+        })
+        .addCase(getYearlyOrders.fulfilled,(state,action)=>{
+            state.isLoading=false;
+            state.isSuccess=true;
+            state.yearlyOrdersData=action.payload;
+        })
+        .addCase(getYearlyOrders.rejected,(state,action)=>{
             state.isLoading=false;
             state.isError=true;
             state.isSuccess=false;
