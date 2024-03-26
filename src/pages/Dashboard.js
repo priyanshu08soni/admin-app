@@ -162,7 +162,7 @@ const Dashboard = () => {
       })
     }
     setOrderData(data1);
-  }, []);
+  }, [orderState]);
   return (
     <div>
       <h3 className="mb-4 title">Dashboard</h3>
