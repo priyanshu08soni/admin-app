@@ -5,7 +5,6 @@ const login=async(userData)=>{
     const response=await axios.post(`${base_url}user/admin-login`,userData);
     if(response.data){
         localStorage.setItem('user',JSON.stringify(response.data))
-
     }
     return response.data;
 }
@@ -15,7 +14,11 @@ const getOrders=async()=>{
 }
 
 const getOrder=async(id)=>{
-    const response=await axios.post(`${base_url}user/getorderbyuser/${id}`,"",config);
+    const response=await axios.get(`${base_url}user/getaOrder/${id}`,config);
+    return response.data;
+};
+const updateOrder=async(data1)=>{
+    const response=await axios.put(`${base_url}user/updateOrder/${data1?.id}`,{status:data1?.status},config);
     return response.data;
 };
 
@@ -32,6 +35,8 @@ const authService={
     getOrders,
     getOrder,
     getMonthlyOrders,
-    getYearlyOrders
+    getYearlyOrders,
+    updateOrder
+
 };
 export default authService;

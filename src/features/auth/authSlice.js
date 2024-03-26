@@ -40,9 +40,16 @@ export const getOrders = createAsyncThunk('order/getallorders',async(thunkApi)=>
         return thunkApi.rejectWithValue(error);
     }
 })
-export const getOrderByUser = createAsyncThunk('order/getorderbyid',async(id,thunkApi)=>{
+export const getOrder = createAsyncThunk('order/getorderbyid',async(id,thunkApi)=>{
     try {
         return await authService.getOrder(id);
+    } catch (error) {
+        return thunkApi.rejectWithValue(error);
+    }
+})
+export const updateOrder = createAsyncThunk('order/update',async(data,thunkApi)=>{
+    try {
+        return await authService.updateOrder(data);
     } catch (error) {
         return thunkApi.rejectWithValue(error);
     }
@@ -57,6 +64,7 @@ export const authSlice=createSlice({
             state.isLoading=true;
         })
         .addCase(login.fulfilled,(state,action)=>{
+            state.isError=false;
             state.isLoading=false;
             state.isSuccess=true;
             state.user=action.payload;
@@ -81,15 +89,29 @@ export const authSlice=createSlice({
             state.isSuccess=false;
             state.user=null;
         })
-        .addCase(getOrderByUser.pending,(state)=>{
+        .addCase(getOrder.pending,(state)=>{
             state.isLoading=true;
         })
-        .addCase(getOrderByUser.fulfilled,(state,action)=>{
+        .addCase(getOrder.fulfilled,(state,action)=>{
             state.isLoading=false;
             state.isSuccess=true;
-            state.orderbyuser=action.payload;
+            state.singleOrder=action.payload;
         })
-        .addCase(getOrderByUser.rejected,(state,action)=>{
+        .addCase(getOrder.rejected,(state,action)=>{
+            state.isLoading=false;
+            state.isError=true;
+            state.isSuccess=false;
+            state.user=null;
+        })
+        .addCase(updateOrder.pending,(state)=>{
+            state.isLoading=true;
+        })
+        .addCase(updateOrder.fulfilled,(state,action)=>{
+            state.isLoading=false;
+            state.isSuccess=true;
+            state.updatedOrder=action.payload;
+        })
+        .addCase(updateOrder.rejected,(state,action)=>{
             state.isLoading=false;
             state.isError=true;
             state.isSuccess=false;
