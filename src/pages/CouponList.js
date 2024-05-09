@@ -48,6 +48,7 @@ const CouponList = () => {
   useEffect(() => {
     dispatch(resetState());
     dispatch(getCoupons());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const couponState=useSelector((state)=>state.coupon.coupons);
   const data1 = [];

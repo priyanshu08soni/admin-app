@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import CustomInput from "../Components/CustomInput";
-import { Link, useNavigate } from "react-router-dom";
+import { 
+   useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -32,6 +33,7 @@ const Login = () => {
     if (!user == null || isSuccess) {
       navigate("admin");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isLoading, isError, isSuccess, message]);
   return (
     <div className="py-5" style={{ background: "#ffd333", minHeight: "100vh" }}>

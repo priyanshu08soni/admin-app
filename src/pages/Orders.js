@@ -1,7 +1,5 @@
 import { React, useEffect } from "react";
 import { Table } from "antd";
-import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import {Link} from "react-router-dom";
 import { getOrders, updateOrder } from "../features/auth/authSlice";
@@ -40,6 +38,7 @@ const Orders = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getOrders());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const orderState = useSelector((state) => state.auth.orders);
   const data1 = [];

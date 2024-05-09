@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Column } from "@ant-design/plots";
 import { Table } from "antd";
-import { BsArrowDownRight, BsArrowUpRight } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getMonthWiseOrderIncome,
+
   getMonthlyOrders,
   getOrders,
   getYearlyOrders,

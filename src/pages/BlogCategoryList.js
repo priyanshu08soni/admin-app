@@ -38,6 +38,7 @@ const BlogCategoryList = () => {
   useEffect(() => {
     dispatch(resetState());
     dispatch(getBlogCategories());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
   const blogCategoryState=useSelector((state)=>state.bcategory.bcategories);
   const data1 = [];

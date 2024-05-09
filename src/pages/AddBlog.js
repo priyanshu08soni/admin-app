@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect} from "react";
 import CustomInput from "../Components/CustomInput";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -48,10 +48,12 @@ const AddBlog = () => {
     } else {
       dispatch(resetState());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blogId]);
   useEffect(() => {
     dispatch(resetState());
     dispatch(getBlogCategories());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     if (isSuccess && blogs) {
@@ -64,6 +66,7 @@ const AddBlog = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError, isLoading]);
   const img = [];
   imgState.forEach((i) => {
@@ -74,6 +77,7 @@ const AddBlog = () => {
   });
   useEffect(() => {
     formik.values.images = img;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [blogImages]);
   const formik = useFormik({
     enableReinitialize:true,

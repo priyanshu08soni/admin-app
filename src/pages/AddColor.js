@@ -22,6 +22,7 @@ const AddColor = () => {
     }else{
       dispatch(resetState());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[colorId]);
   const formik = useFormik({
     enableReinitialize:true,
@@ -53,6 +54,7 @@ const AddColor = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError, isLoading]);
   return (
     <div>

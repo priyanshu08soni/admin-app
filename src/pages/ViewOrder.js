@@ -1,11 +1,8 @@
 import { React, useEffect } from "react";
 import { Table } from "antd";
-import { BiEdit } from "react-icons/bi";
-import { AiFillDelete } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import {Link, useLocation} from "react-router-dom";
-import { getOrder, getOrderByUser, getOrders } from "../features/auth/authSlice";
-import { getProducts } from "../features/product/productSlice";
+import {useLocation} from "react-router-dom";
+import { getOrder } from "../features/auth/authSlice";
 const columns = [
   {
     title: "S.No.",
@@ -40,6 +37,7 @@ const ViewOrder = () => {
 
   useEffect(() => {
     dispatch(getOrder(orderId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const orderState = useSelector((state) => state?.auth?.singleOrder?.singleOrder);
  

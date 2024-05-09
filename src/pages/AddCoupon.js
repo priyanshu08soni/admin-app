@@ -40,6 +40,7 @@ const AddCoupon = () => {
     }else{
       dispatch(resetState());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[couponId]);
   const formik = useFormik({
     enableReinitialize:true,
@@ -74,6 +75,7 @@ const AddCoupon = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError, isLoading]);
   return (
     <div>

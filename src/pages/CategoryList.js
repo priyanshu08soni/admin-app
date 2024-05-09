@@ -36,6 +36,7 @@ const CategoryList = () => {
   useEffect(() => {
     dispatch(resetState());
     dispatch(getCategories());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // state.pcategory.pcategories = state go to store to get reducer to go to slice.
   const pCategoryState=useSelector((state)=>state.pcategory.pcategories)

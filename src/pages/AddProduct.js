@@ -35,6 +35,7 @@ const AddProduct = () => {
     dispatch(getBrands());
     dispatch(getCategories());
     dispatch(getColors());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   const brandState = useSelector((state) => state.brand.brands);
@@ -50,6 +51,7 @@ const AddProduct = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError, isLoading]);
   const colors = [];
   colorState.forEach((i) => {
@@ -69,6 +71,7 @@ const AddProduct = () => {
   useEffect(()=>{
     formik.values.color = color?color:" ";
     formik.values.images = img;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[color,img]);
   const formik = useFormik({
     initialValues: {

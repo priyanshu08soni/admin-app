@@ -29,6 +29,7 @@ const AddBlogCat = () => {
     } else {
       dispatch(resetState());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bCatId]);
   const formik = useFormik({
     enableReinitialize: true,
@@ -60,6 +61,7 @@ const AddBlogCat = () => {
     if (isError) {
       toast.error("Something Went Wrong!");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccess, isError, isLoading]);
   return (
     <div>

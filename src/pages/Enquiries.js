@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import CustomModel from "../Components/CustomModel";
 import {
   deleteAEnquiry,
-  deleteEnquiry,
   getEnquiries,
   updateAEnquiry,
 } from "../features/enquiry/enquirySlice";
@@ -50,6 +49,7 @@ const Enquiries = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getEnquiries());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const enquiryState = useSelector((state) => state.enquiry.enquiries);
   const data1 = [];

@@ -43,6 +43,7 @@ const BlogList = () => {
   useEffect(() => {
     dispatch(resetState());
     dispatch(getBlogs());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const blogState = useSelector((state) => state.blog.blogs);
   const data1 = [];

@@ -12,6 +12,7 @@ const ViewEnq = () => {
   const { enqName, enqMobile, enqEmail, enqComment, enqStatus } = enqState;
   useEffect(() => {
     dispatch(getAEnquiry(enqId));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enqId]);
   const goback = () => {
     navigate("/admin/enquiries");
